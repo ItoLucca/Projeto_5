@@ -2,6 +2,7 @@
 #include <string.h>
 #include "projeto_5.h"
 
+
 int main(){
     lista_contatos Lista_Pessoal[MAX_CONTATOS];
     lista_contatos Lista_Trabalho[MAX_CONTATOS];

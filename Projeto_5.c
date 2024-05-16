@@ -2,23 +2,33 @@
 #include <stdio.h>
 #include "projeto_5.h"
 
+void Clear_buffer(){
+    int c;
+    while((c = getchar()) != '\n' && c != EOF);
+}
+
 int Adicionar_contatos(lista_contatos Lista[], int *contador_tarefas){
     if(*contador_tarefas < MAX_CONTATOS){
         printf("\nDigite o seu nome: ");
         scanf("%s", Lista[*contador_tarefas].nome);
+        Clear_buffer();
 
         printf("\ndigite o seu sobrenome: ");
         scanf("%s", Lista[*contador_tarefas].sobrenome);
+        Clear_buffer();
 
         printf("\ndigite o seu email: ");
         scanf("%s", Lista[*contador_tarefas].email);
+        Clear_buffer();
 
         printf("\ndigite novamente seu email: ");
-        scanf("%s", Lista[*contador_tarefas].revalida);        
+        scanf("%s", Lista[*contador_tarefas].revalida);
+        Clear_buffer();
 
         if(strcmp(Lista[*contador_tarefas].email, Lista[*contador_tarefas].revalida) == 0){
             printf("\ndigite o seu telefone: ");
             scanf("%s", Lista[*contador_tarefas].telefone);
+            Clear_buffer();
 
             
             for(int i = 0; i < *contador_tarefas; i++){
@@ -50,7 +60,7 @@ int Listar_contatos(lista_contatos Lista[], int *contador_tarefas){
         for(int i = 0 ; i < *contador_tarefas ; i++){
             printf("\n     Tarefa: %d\n", i + 1);
             printf("     --> Nome: %s\n", Lista[i].nome);
-            printf("     --> Sobreome: %s\n", Lista[i].nome);
+            printf("     --> Sobreome: %s\n", Lista[i].sobrenome);
             printf("     --> Email: %s\n", Lista[i].email);
             printf("     --> Telefone: %s\n", Lista[i].telefone);
         }
@@ -64,29 +74,33 @@ int Listar_contatos(lista_contatos Lista[], int *contador_tarefas){
 
 int Deletar_contatos(lista_contatos Lista[], int *contador_tarefas){
     char telefone_deletar[MAX_TELEFONE];
+    int encontrado = 0;
     
     if(*contador_tarefas > 0){
         printf("\nDigite o telefone referente a conta a ser deletada: ");
         scanf("%s", telefone_deletar);
+        Clear_buffer();
         
         for (int i = 0; i < *contador_tarefas; i++) {
             if (strcmp(telefone_deletar, Lista[i].telefone) == 0) {
+                encontrado = 1;
                 for (int j = i; j < *contador_tarefas - 1; j++) {
                     Lista[j] = Lista[j + 1];
                 }
                 (*contador_tarefas)--;
                 printf("\n____Contato deletado com sucesso!!____\n");
-                return 1;
-            }
-            else{
-                printf("\nO telefone inserido nao bate com nenhum numero no sistema.. \n");
-                return 0;
+                break;
             }
         }
-    }
-    else{
+
+        if (!encontrado) {
+            printf("\nO telefone inserido nao bate com nenhum numero no sistema.\n");
+        }
+    } else {
         printf("\nA lista está vazia!! \n");
     }
+
+    return encontrado;
 }
 
 
@@ -100,25 +114,31 @@ int Alterar_contatos(lista_contatos Lista[], int *contador_tarefas){
 
         printf("\nDigite seu email: ");
         scanf("%s", email_alterar);
+        Clear_buffer();
 
         printf("\nDigite seu telefone: ");
         scanf("%s", telefone_alterar);
+        Clear_buffer();
 
         for(int i = 0 ; i < *contador_tarefas ; i ++){
             if(strcmp(email_alterar, Lista[i].email) == 0 && strcmp(telefone_alterar, Lista[i].telefone) == 0){
                 
                 printf("\nDigite o novo nome: ");
                 scanf("%s", Lista[i].nome);
+                Clear_buffer();
 
                 printf("\nDigite o novo sobrenome: ");
                 scanf("%s", Lista[i].sobrenome);
+                Clear_buffer();
 
                 printf("\nDigite o novo email: ");
                 scanf("%s", Lista[i].email);
+                Clear_buffer();
 
                 do{
                     printf("\nDigite o novo telefone: ");
                     scanf("%s", Lista[i].telefone);
+                    Clear_buffer();
 
                     for(int j = 0; j < *contador_tarefas; j++){
                         if (i != j && strcmp(Lista[i].telefone, Lista[j].telefone) == 0) {
@@ -128,7 +148,7 @@ int Alterar_contatos(lista_contatos Lista[], int *contador_tarefas){
                             break;
                         }                     
                     }
-                } while (telefone_duplicado);
+                }while(telefone_duplicado);
 
             }
             else{
@@ -185,4 +205,3 @@ int Carregar_contatos(lista_contatos Lista[], int *contador_tarefas, const char 
     }
 
 }
-
